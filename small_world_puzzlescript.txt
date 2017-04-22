@@ -1,0 +1,159 @@
+title Small World
+author Wheerd
+homepage https://github.com/wheerd/ludum-dare-38
+
+========
+OBJECTS
+========
+
+Background
+LightGreen
+
+PlayerInactive
+Blue
+00000
+0...0
+0...0
+0...0
+00000
+
+PlayerActive
+Red
+00000
+0...0
+0...0
+0...0
+00000
+
+HungryLion
+Yellow Brown Black
+.111.
+10001
+12021
+10001
+.020.
+
+FedLion
+Orange DarkBrown Black
+.111.
+10001
+12021
+10001
+.020.
+
+HungryGiraffe
+Yellow Brown Black
+...0.
+..120
+..0..
+001..
+1.0..
+
+FedGiraffe
+Orange DarkBrown Black
+...0.
+..120
+..0..
+001..
+1.0..
+
+Tree
+Green Brown
+.000.
+00000
+.000.
+..1..
+..1..
+
+Eaten
+Transparent
+(
+Red
+....0
+.....
+.....
+.....
+.....
+)
+
+Fed
+Transparent
+(
+Blue
+0....
+.....
+.....
+.....
+.....
+)
+
+=======
+LEGEND
+=======
+
+. = Background
+P = PlayerInactive
+L = HungryLion
+G = HungryGiraffe
+T = Tree
+Player = PlayerActive or PlayerInactive
+Lion = HungryLion or FedLion
+Giraffe = HungryGiraffe or FedGiraffe
+Animal = Lion or Giraffe
+Animal2 = Lion or Giraffe
+
+
+=======
+SOUNDS
+=======
+
+================
+COLLISIONLAYERS
+================
+
+Background
+Lion, Giraffe, Tree
+PlayerInactive, PlayerActive
+Eaten
+Fed
+
+======
+RULES
+======
+
+[ > PlayerActive Animal | Tree ] -> [ PlayerActive Animal | Tree ]
+[ > PlayerActive Animal | Animal2 ] -> [ Animal2 | PlayerActive Animal ]
+[ > PlayerActive Animal ] -> [ > PlayerActive > Animal ]
+[ Action PlayerActive ] -> [ PlayerInactive ]
+[ Action PlayerInactive Animal ] -> [ PlayerActive Animal ]
+
+late [ Eaten ] -> [ ]
+late [ Fed ] -> [ ]
+late [ FedLion ] -> [ HungryLion ]
+late [ FedGiraffe ] -> [ HungryGiraffe ]
+late [ HungryLion | Giraffe ] -> [ FedLion Fed | Giraffe Eaten ]
+late [ HungryGiraffe | Tree ] -> [ FedGiraffe Fed | Tree Eaten ]
+late [ Lion Fed ] [ Giraffe Eaten] -> [ Lion ] [ Giraffe ]
+late [ Giraffe Fed ] [ Tree Eaten] -> [ Giraffe ] [ Tree ]
+
+==============
+WINCONDITIONS
+==============
+
+No PlayerActive
+No HungryLion
+No HungryGiraffe
+No Eaten
+No Fed
+
+=======
+LEVELS
+=======
+
+T....
+...LL
+P..GG
+.....
+....T
+
+message You win!
