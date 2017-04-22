@@ -1,29 +1,13 @@
 title Small World
 author Wheerd
 homepage https://github.com/wheerd/ludum-dare-38
+run_rules_on_level_start
 
 ========
 OBJECTS
 ========
 
-Background
-LightGreen
-
-PlayerInactive
-Blue
-00000
-0...0
-0...0
-0...0
-00000
-
-PlayerActive
-Red
-00000
-0...0
-0...0
-0...0
-00000
+(Animals)
 
 HungryLion
 Yellow Brown Black
@@ -57,6 +41,185 @@ Orange DarkBrown Black
 001..
 1.0..
 
+HungryMouse
+LightGrey Grey
+..0..
+.101.
+.000.
+..0..
+110..
+
+FedMouse
+Grey DarkGrey
+..0..
+.101.
+.000.
+..0..
+110..
+
+HungryGrasshopper
+Green DarkGreen
+.....
+.....
+.1.0.
+10100
+1..1.
+
+FedGrasshopper
+#387214 DarkGreen
+.....
+.....
+.1.0.
+10100
+1..1.
+
+HungryBird
+LightGrey Grey
+.....
+00.00
+..1..
+.....
+.....
+
+FedBird
+Grey DarkGrey
+.....
+00.00
+..1..
+.....
+.....
+
+HungrySnake
+Red DarkRed 
+.01..
+...0.
+.100.
+0....
+.0010
+
+FedSnake
+DarkRed Red
+.01..
+...0.
+.100.
+0....
+.0010
+
+HungryVulture
+LightGrey Pink DarkGray
+..1..
+.010.
+22022
+22022
+.1.1.
+
+FedVulture
+Grey DarkRed DarkGray
+..1..
+.010.
+22022
+22022
+.1.1.
+
+HungrySkunk
+White Black LightGrey
+0....
+0000.
+11120
+1111.
+.1.1.
+
+FedSkunk
+Grey Black DarkGrey
+0....
+0000.
+11120
+1111.
+.1.1.
+
+HungryMonkey
+Brown LightBrown Black
+.000.
+02120
+01110
+.010.
+.000.
+
+FedMonkey
+DarkBrown Brown Black
+.000.
+02120
+01110
+.010.
+.000.
+
+HungryImpala
+Brown
+...00
+...0.
+0000.
+0..0.
+0..0.
+
+FedImpala
+DarkBrown
+...00
+...0.
+0000.
+0..0.
+0..0.
+
+HungryLeopard
+Yellow Orange
+.....
+...10
+01000
+0..0.
+0..1.
+
+FedLeopard
+LightBrown Orange
+.....
+...10
+01000
+0..0.
+0..1.
+
+HungryHippo
+Grey Black
+.000.
+01010
+00000
+00000
+.0.0.
+
+FedHippo
+DarkGrey Black
+.000.
+01010
+00000
+00000
+.0.0.
+
+(Environment)
+
+Background
+LightGreen
+
+Grass
+#86AA1E
+
+Lake
+Blue
+
+Rock
+Grey DarkGrey
+..10.
+.1001
+10001
+10001
+.111.
+
 Tree
 Green Brown
 .000.
@@ -65,42 +228,147 @@ Green Brown
 ..1..
 ..1..
 
-Eaten
-Transparent
-(
+Shrub
+Green Brown
+.....
+.....
+..00.
+.000.
+..1..
+
+(Meta)
+
+PlayerInactive
+DarkBlue
+00000
+0...0
+0...0
+0...0
+00000
+
+PlayerActive
+Red
+00000
+0...0
+0...0
+0...0
+00000
+
+Eaten1
 Red
 ....0
 .....
 .....
 .....
 .....
-)
 
-Fed
-Transparent
-(
+Eaten2
+Red
+....0
+....0
+.....
+.....
+.....
+
+Eaten3
+Red
+....0
+....0
+....0
+.....
+.....
+
+Eaten4
+Red
+....0
+....0
+....0
+....0
+.....
+
+
+Fed1
 Blue
 0....
 .....
 .....
 .....
 .....
-)
+
+Fed2
+Blue
+0....
+0....
+.....
+.....
+.....
+
+Fed3
+Blue
+0....
+0....
+0....
+.....
+.....
+
+Fed4
+Blue
+0....
+0....
+0....
+0....
+.....
+
+FeedTemp
+Transparent
+
 
 =======
 LEGEND
 =======
 
 . = Background
+# = Grass
+O = Rock
+T = Tree
+S = Shrub
+$ = Lake
+
 P = PlayerInactive
+
 L = HungryLion
 G = HungryGiraffe
-T = Tree
+M = HungryMouse
+H = HungryGrasshopper
+B = HungryBird
+% = HungrySnake
++ = HungryVulture
+* = HungrySkunk
+K = HungryMonkey
+I = HungryImpala
+F = HungryLeopard
+C = HungryHippo
+
 Player = PlayerActive or PlayerInactive
 Lion = HungryLion or FedLion
 Giraffe = HungryGiraffe or FedGiraffe
-Animal = Lion or Giraffe
-Animal2 = Lion or Giraffe
+Mouse = HungryMouse or FedMouse
+Grasshopper = HungryGrasshopper or FedGrasshopper
+Bird = HungryBird or FedBird
+Snake = HungrySnake or FedSnake
+Vulture = HungryVulture or FedVulture
+Skunk = HungrySkunk or FedSkunk
+Monkey = HungryMonkey or FedMonkey
+Impala = HungryImpala or FedImpala
+Leopard = HungryLeopard or FedLeopard
+Hippo = HungryHippo or FedHippo
+
+Animal = Lion or Giraffe or Mouse or Grasshopper or Bird or Snake or Vulture or Skunk or Monkey or Impala or Leopard or Hippo
+Animal2 = Lion or Giraffe or Mouse or Grasshopper or Bird or Snake or Vulture or Skunk or Monkey or Impala or Leopard or Hippo
+Blocking = Tree or Rock or Shrub or Lake
+Eaten = Eaten1 (or Eaten2 or Eaten3 or Eaten4)
+Fed = Fed1 (or Fed2 or Fed3 or Fed4)
+Hungry = HungryLion or HungryGiraffe or HungryMouse or HungryGrasshopper or HungryBird or HungrySnake or HungryVulture or HungrySkunk or HungryMonkey or HungryImpala or HungryLeopard or HungryHippo
 
 
 =======
@@ -112,37 +380,130 @@ COLLISIONLAYERS
 ================
 
 Background
-Lion, Giraffe, Tree
+Grass
+Animal, Blocking
 PlayerInactive, PlayerActive
 Eaten
 Fed
+FeedTemp, Eaten2, Eaten3, Eaten4, Fed2, Fed3, Fed4
 
 ======
 RULES
 ======
 
-[ > PlayerActive Animal | Tree ] -> [ PlayerActive Animal | Tree ]
+(Movement)
+[ > PlayerActive Animal | Blocking ] -> [ PlayerActive Animal | Blocking ]
 [ > PlayerActive Animal | Animal2 ] -> [ Animal2 | PlayerActive Animal ]
 [ > PlayerActive Animal ] -> [ > PlayerActive > Animal ]
 [ Action PlayerActive ] -> [ PlayerInactive ]
 [ Action PlayerInactive Animal ] -> [ PlayerActive Animal ]
 
+(Reset)
 late [ Eaten ] -> [ ]
 late [ Fed ] -> [ ]
 late [ FedLion ] -> [ HungryLion ]
 late [ FedGiraffe ] -> [ HungryGiraffe ]
-late [ HungryLion | Giraffe ] -> [ FedLion Fed | Giraffe Eaten ]
-late [ HungryGiraffe | Tree ] -> [ FedGiraffe Fed | Tree Eaten ]
-late [ Lion Fed ] [ Giraffe Eaten] -> [ Lion ] [ Giraffe ]
-late [ Giraffe Fed ] [ Tree Eaten] -> [ Giraffe ] [ Tree ]
+late [ FedMouse ] -> [ HungryMouse ]
+late [ FedGrasshopper ] -> [ HungryGrasshopper ]
+late [ FedBird ] -> [ HungryBird ]
+late [ FedSnake ] -> [ HungrySnake ]
+late [ FedVulture ] -> [ HungryVulture ]
+late [ FedSkunk ] -> [ HungrySkunk ]
+late [ FedMonkey ] -> [ HungryMonkey ]
+late [ FedImpala ] -> [ HungryImpala ]
+late [ FedLeopard ] -> [ HungryLeopard ]
+late [ FedHippo ] -> [ HungryHippo ]
+
+(Eat)
+(
+late Down [ Lion No Fed | Giraffe No Eaten ] -> [ Lion | Giraffe Eaten1 ]
+late Up [ Lion No FeedTemp | Giraffe No Eaten ] -> [ Lion FeedTemp | Giraffe Eaten1 ]
+late Up [ Lion No FeedTemp | Giraffe Eaten1 ] -> [ Lion FeedTemp | Giraffe Eaten2 ]
+late [ FeedTemp ] -> [ ]
+late Left [ Lion No FeedTemp | Giraffe No Eaten ] -> [ Lion FeedTemp | Giraffe Eaten1 ]
+late Left [ Lion No FeedTemp | Giraffe Eaten1 ] -> [ Lion FeedTemp | Giraffe Eaten2 ]
+late Left [ Lion No FeedTemp | Giraffe Eaten2 ] -> [ Lion FeedTemp | Giraffe Eaten3 ]
+late [ FeedTemp ] -> [ ]
+late Right [ Lion No FeedTemp | Giraffe No Eaten ] -> [ Lion FeedTemp | Giraffe Eaten1 ]
+late Right [ Lion No FeedTemp | Giraffe Eaten1 ] -> [ Lion FeedTemp | Giraffe Eaten2 ]
+late Right [ Lion No FeedTemp | Giraffe Eaten2 ] -> [ Lion FeedTemp | Giraffe Eaten3 ]
+late Right [ Lion No FeedTemp | Giraffe Eaten3 ] -> [ Lion FeedTemp | Giraffe Eaten4 ]
+late [ FeedTemp ] -> [ ]
+late [ Lion | Giraffe Eaten4 ] -> [ Lion Fed4 | Giraffe Eaten4 ]
+late [ Lion | Giraffe Eaten3 ] -> [ Lion Fed3 | Giraffe Eaten3 ]
+late [ Lion | Giraffe Eaten2 ] -> [ Lion Fed2 | Giraffe Eaten2 ]
+late [ Lion | Giraffe Eaten1 ] -> [ Lion Fed1 | Giraffe Eaten1 ]
+
+
+late [ Lion Fed1 | Giraffe Eaten1 ] -> [ FedLion | Giraffe ]
+late [ Lion Fed2 | Giraffe Eaten2 ] -> [ FedLion | Giraffe ]
+late [ Lion Fed1 | Giraffe Eaten2 ] -> [ FedLion | Giraffe ]
+late [ Lion Fed3 | Giraffe Eaten3 ] -> [ FedLion | Giraffe ]
+late [ Lion Fed2 | Giraffe Eaten3 ] -> [ FedLion | Giraffe ]
+late [ Lion Fed1 | Giraffe Eaten3 ] -> [ FedLion | Giraffe ]
+late [ Lion Fed4 | Giraffe Eaten4 ] -> [ FedLion | Giraffe ]
+late [ Lion Fed3 | Giraffe Eaten4 ] -> [ FedLion | Giraffe ]
+late [ Lion Fed2 | Giraffe Eaten4 ] -> [ FedLion | Giraffe ]
+late [ Lion Fed1 | Giraffe Eaten4 ] -> [ FedLion | Giraffe ]
+)
+
+
+late [ Giraffe | Tree ] -> [ FedGiraffe Fed | Tree Eaten ]
+late [ Mouse Grass ] -> [ FedMouse Grass ]
+late [ Grasshopper Grass ] -> [ FedGrasshopper Grass ]
+late [ Bird | Grasshopper ] -> [ FedBird Fed | Grasshopper Eaten ]
+late [ Impala | Shrub ] -> [ FedImpala Fed | Shrub Eaten ]
+late [ Snake | Mouse ] -> [ FedSnake Fed | Mouse Eaten ]
+late [ Vulture | Animal No Grasshopper ] -> [ FedVulture Fed | Animal Eaten ]
+late [ Skunk | Bird ] -> [ FedSkunk Fed | Bird Eaten ]
+late [ Skunk | Snake ] -> [ FedSkunk Fed | Snake Eaten ]
+late [ Monkey | Shrub ] -> [ FedMonkey Fed | Shrub Eaten ]
+late [ Monkey | Tree ] -> [ FedMonkey Fed | Tree Eaten ]
+late [ Monkey | Grasshopper ] -> [ FedMonkey Fed | Grasshopper Eaten ]
+late [ Leopard | Impala ] -> [ FedLeopard Fed | Impala Eaten ]
+late [ Leopard | Monkey ] -> [ FedLeopard Fed | Monkey Eaten ]
+late [ Hippo | Lake ] -> [ FedHippo Fed | Lake Eaten ]
+late [ Lion | Giraffe ] -> [ FedLion Fed | Giraffe Eaten ]
+late [ Lion | Hippo ] -> [ FedLion Fed | Hippo Eaten ]
+late [ Impala Grass ] -> [ FedImpala Grass No Fed ]
+
+(Balance)
+late [ Hippo Fed ] [ Lake Eaten ] -> [ Hippo ] [ Lake ]
+late [ Impala Fed | Shrub ] [ Shrub Eaten ] -> [ Impala | Shrub ] [ Shrub ]
+late [ Monkey Fed | Shrub ] [ Shrub Eaten ] -> [ Monkey | Shrub ] [ Shrub ]
+late [ Giraffe Fed ] [ Tree Eaten ] -> [ Giraffe ] [ Tree ]
+late [ Monkey Fed | Tree ] [ Tree Eaten ] -> [ Monkey | Tree ] [ Tree ]
+late [ Bird Fed ] [ Grasshopper Eaten ] -> [ Bird ] [ Grasshopper ]
+late [ Monkey Fed | Grasshopper ] [ Grasshopper Eaten ] -> [ Monkey | Grasshopper ] [ Grasshopper ]
+late [ Snake Fed ] [ Mouse Eaten ] -> [ Snake ] [ Mouse ]
+late [ Skunk Fed | Bird ] [ Bird Eaten ] -> [ Skunk | Bird ] [ Bird ]
+late [ Skunk Fed | Snake ] [ Snake Eaten ] -> [ Skunk | Snake ] [ Snake ]
+late [ Leopard Fed | Impala ] [ Impala Eaten ] -> [ Leopard | Impala ] [ Impala ]
+late [ Leopard Fed | Monkey ] [ Monkey Eaten ] -> [ Leopard | Monkey ] [ Monkey ]
+late [ Lion Fed | Giraffe ] [ Giraffe Eaten] -> [ Lion | Giraffe ] [ Giraffe ]
+late [ Lion Fed | Hippo ] [ Hippo Eaten] -> [ Lion | Hippo ] [ Hippo ]
+late [ Vulture Fed ] [ Animal Eaten] -> [ Vulture ] [ Animal ]
+
+(Rollback)
+late [ Lion Fed ] -> [ HungryLion Fed ]
+late [ Giraffe Fed ] -> [ HungryGiraffe Fed ]
+late [ Mouse Fed ] -> [ HungryMouse Fed ]
+late [ Grasshopper Fed ] -> [ HungryGrasshopper Fed ]
+late [ Bird Fed ] -> [ HungryBird Fed ]
+late [ Snake Fed ] -> [ HungrySnake Fed ]
+late [ Vulture Fed ] -> [ HungryVulture Fed ]
+late [ Skunk Fed ] -> [ HungrySkunk Fed ]
+late [ Monkey Fed ] -> [ HungryMonkey Fed ]
+late [ Impala Fed ] -> [ HungryImpala Fed ]
+late [ Leopard Fed ] -> [ HungryLeopard Fed ]
+late [ Hippo Fed ] -> [ HungryHippo Fed ]
+
 
 ==============
 WINCONDITIONS
 ==============
 
-No PlayerActive
-No HungryLion
-No HungryGiraffe
+No Hungry
 No Eaten
 No Fed
 
@@ -150,10 +511,9 @@ No Fed
 LEVELS
 =======
 
-T....
-...LL
-P..GG
-.....
-....T
+TGLGT
+TLGL.
+TGL.P
+
 
 message You win!
