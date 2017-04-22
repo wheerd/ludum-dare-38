@@ -33,7 +33,7 @@ Yellow Brown Black
 ..120
 ..0..
 001..
-1.0..
+1.0..)
 
 FedGiraffe
 Orange DarkBrown Black
@@ -45,19 +45,19 @@ Orange DarkBrown Black
 
 HungryMouse
 LightGrey Grey
-..0..
 .101.
 .000.
+.000.
 ..0..
-110..
+.10..
 
 FedMouse
 Grey DarkGrey
-..0..
 .101.
 .000.
+.000.
 ..0..
-110..
+.10..
 
 HungryGrasshopper
 Green DarkGreen
@@ -155,7 +155,7 @@ DarkBrown Brown Black
 .010.
 .000.
 
-HungryImpala
+HungryAntelope
 Brown
 ...00
 ...0.
@@ -163,7 +163,7 @@ Brown
 0..0.
 0..0.
 
-FedImpala
+FedAntelope
 DarkBrown
 ...00
 ...0.
@@ -231,11 +231,11 @@ Green Brown
 ..1..
 
 Shrub
-Green Brown
+Green Brown Red
 .....
-.....
-..00.
-.000.
+.00..
+.200.
+.002.
 ..1..
 
 (Meta)
@@ -336,6 +336,15 @@ Blue
 FeedTemp
 Transparent
 
+MonkeyShrub
+Transparent
+
+MonkeyTree
+Transparent
+
+MonkeyGrasshopper
+Transparent
+
 
 =======
 LEGEND
@@ -343,10 +352,10 @@ LEGEND
 
 . = Background
 # = Grass
-O = Rock
-T = Tree
-S = Shrub
-$ = Lake
+% = Rock
+& = Tree
+$ = Shrub
+_ = Lake
 
 P = PlayerInactive
 
@@ -355,11 +364,11 @@ G = HungryGiraffe
 M = HungryMouse
 H = HungryGrasshopper
 B = HungryBird
-% = HungrySnake
-+ = HungryVulture
-* = HungrySkunk
+S = HungrySnake
+T = HungryVulture
+O = HungrySkunk
 K = HungryMonkey
-I = HungryImpala
+A = HungryAntelope
 F = HungryLeopard
 C = HungryHippo
 
@@ -373,16 +382,16 @@ Snake = HungrySnake or FedSnake
 Vulture = HungryVulture or FedVulture
 Skunk = HungrySkunk or FedSkunk
 Monkey = HungryMonkey or FedMonkey
-Impala = HungryImpala or FedImpala
+Antelope = HungryAntelope or FedAntelope
 Leopard = HungryLeopard or FedLeopard
 Hippo = HungryHippo or FedHippo
 
-Animal = Lion or Giraffe or Mouse or Grasshopper or Bird or Snake or Vulture or Skunk or Monkey or Impala or Leopard or Hippo
-Animal2 = Lion or Giraffe or Mouse or Grasshopper or Bird or Snake or Vulture or Skunk or Monkey or Impala or Leopard or Hippo
+Animal = Lion or Giraffe or Mouse or Grasshopper or Bird or Snake or Vulture or Skunk or Monkey or Antelope or Leopard or Hippo
+Animal2 = Lion or Giraffe or Mouse or Grasshopper or Bird or Snake or Vulture or Skunk or Monkey or Antelope or Leopard or Hippo
 Blocking = Tree or Rock or Shrub or Lake
 Eaten = Eaten1 (or Eaten2 or Eaten3 or Eaten4)
 Fed = Fed1 (or Fed2 or Fed3 or Fed4)
-Hungry = HungryLion or HungryGiraffe or HungryMouse or HungryGrasshopper or HungryBird or HungrySnake or HungryVulture or HungrySkunk or HungryMonkey or HungryImpala or HungryLeopard or HungryHippo
+Hungry = HungryLion or HungryGiraffe or HungryMouse or HungryGrasshopper or HungryBird or HungrySnake or HungryVulture or HungrySkunk or HungryMonkey or HungryAntelope or HungryLeopard or HungryHippo
 
 
 =======
@@ -395,18 +404,22 @@ COLLISIONLAYERS
 
 Background
 Grass
-Animal, Blocking
+Blocking
+Animal
 PlayerInactive, PlayerActive
 Eaten
 Fed, Fed2
 FeedTemp, Eaten2, Eaten3, Eaten4, Fed3, Fed4
+MonkeyShrub
+MonkeyTree
+MonkeyGrasshopper
 
 ======
 RULES
 ======
 
 (Movement)
-[ > PlayerActive Animal | Blocking ] -> [ PlayerActive Animal | Blocking ]
+[ > PlayerActive Animal No Bird No Vulture | Blocking ] -> [ PlayerActive Animal | Blocking ]
 [ > PlayerActive Animal | Animal2 ] -> [ Animal2 | PlayerActive Animal ]
 [ > PlayerActive Animal ] -> [ > PlayerActive > Animal ]
 [ Action PlayerActive ] -> [ PlayerInactive ]
@@ -425,7 +438,7 @@ late [ FedSnake ] -> [ HungrySnake ]
 late [ FedVulture ] -> [ HungryVulture ]
 late [ FedSkunk ] -> [ HungrySkunk ]
 late [ FedMonkey ] -> [ HungryMonkey ]
-late [ FedImpala ] -> [ HungryImpala ]
+late [ FedAntelope ] -> [ HungryAntelope ]
 late [ FedLeopard ] -> [ HungryLeopard ]
 late [ FedHippo ] -> [ HungryHippo ]
 
@@ -467,24 +480,26 @@ late [ Giraffe | Tree ] -> [ FedGiraffe Fed | Tree Eaten ]
 late [ Mouse Grass ] -> [ FedMouse Grass ]
 late [ Grasshopper Grass ] -> [ FedGrasshopper Grass ]
 late [ Bird | Grasshopper ] -> [ FedBird Fed | Grasshopper Eaten ]
-late [ Impala | Shrub ] -> [ FedImpala Fed | Shrub Eaten ]
+late [ Antelope | Shrub ] -> [ FedAntelope Fed | Shrub Eaten ]
 late [ Snake | Mouse ] -> [ FedSnake Fed | Mouse Eaten ]
-late [ Vulture | Animal No Grasshopper ] -> [ FedVulture Fed | Animal Eaten ]
 late [ Skunk | Bird ] -> [ FedSkunk Fed | Bird Eaten ]
 late [ Skunk | Snake ] -> [ FedSkunk Fed | Snake Eaten ]
-late [ Monkey | Shrub ] -> [ FedMonkey Fed | Shrub Eaten ]
-late [ Monkey | Tree ] -> [ FedMonkey Fed | Tree Eaten ]
-late [ Monkey | Grasshopper ] -> [ FedMonkey Fed | Grasshopper Eaten ]
-late [ Leopard | Impala ] -> [ FedLeopard Fed | Impala Eaten ]
+late [ Monkey | Shrub ] -> [ FedMonkey Fed MonkeyShrub | Shrub Eaten ]
+late [ Monkey | Tree ] -> [ FedMonkey Fed MonkeyTree | Tree Eaten ]
+late [ Monkey | Grasshopper ] -> [ FedMonkey Fed MonkeyGrasshopper | Grasshopper Eaten ]
+late [ Leopard | Antelope ] -> [ FedLeopard Fed | Antelope Eaten ]
 late [ Leopard | Monkey ] -> [ FedLeopard Fed | Monkey Eaten ]
+late [ Leopard | | Antelope ] -> [ FedLeopard Fed | | Antelope Eaten ]
+late [ Leopard | | Monkey ] -> [ FedLeopard Fed | | Monkey Eaten ]
 late [ Hippo | Lake ] -> [ FedHippo Fed | Lake Eaten ]
 late [ Lion | Giraffe ] -> [ FedLion Fed | Giraffe Eaten ]
 late [ Lion | Hippo ] -> [ FedLion Fed | Hippo Eaten ]
-late [ Impala Grass ] -> [ FedImpala Grass No Fed ]
+late [ Antelope Grass ] -> [ FedAntelope Grass No Fed ]
+late [ Vulture | Animal No Grasshopper No Vulture Eaten ] -> [ FedVulture | Animal Eaten ]
 
 (Balance)
 late [ Hippo Fed ] [ Lake Eaten ] -> [ Hippo ] [ Lake ]
-late [ Impala Fed | Shrub ] [ Shrub Eaten ] -> [ Impala | Shrub ] [ Shrub ]
+late [ Antelope Fed | Shrub ] [ Shrub Eaten ] -> [ Antelope | Shrub ] [ Shrub ]
 late [ Monkey Fed | Shrub ] [ Shrub Eaten ] -> [ Monkey | Shrub ] [ Shrub ]
 late [ Giraffe Fed ] [ Tree Eaten ] -> [ Giraffe ] [ Tree ]
 late [ Monkey Fed | Tree ] [ Tree Eaten ] -> [ Monkey | Tree ] [ Tree ]
@@ -493,13 +508,15 @@ late [ Monkey Fed | Grasshopper ] [ Grasshopper Eaten ] -> [ Monkey | Grasshoppe
 late [ Snake Fed ] [ Mouse Eaten ] -> [ Snake ] [ Mouse ]
 late [ Skunk Fed | Bird ] [ Bird Eaten ] -> [ Skunk | Bird ] [ Bird ]
 late [ Skunk Fed | Snake ] [ Snake Eaten ] -> [ Skunk | Snake ] [ Snake ]
-late [ Leopard Fed | Impala ] [ Impala Eaten ] -> [ Leopard | Impala ] [ Impala ]
+late [ Leopard Fed | Antelope ] [ Antelope Eaten ] -> [ Leopard | Antelope ] [ Antelope ]
 late [ Leopard Fed | Monkey ] [ Monkey Eaten ] -> [ Leopard | Monkey ] [ Monkey ]
+late [ Leopard Fed | | Antelope ] [ Antelope Eaten ] -> [ Leopard | | Antelope ] [ Antelope ]
+late [ Leopard Fed | | Monkey ] [ Monkey Eaten ] -> [ Leopard | | Monkey ] [ Monkey ]
 late [ Lion Fed | Giraffe ] [ Giraffe Eaten] -> [ Lion Fed2 | Giraffe ] [ Giraffe ]
 late [ Lion Fed | Hippo ] [ Hippo Eaten] -> [ Lion Fed2 | Hippo ] [ Hippo ]
 late [ Lion Fed2 | Giraffe ] [ Giraffe Eaten] -> [ Lion | Giraffe ] [ Giraffe ]
 late [ Lion Fed2 | Hippo ] [ Hippo Eaten] -> [ Lion | Hippo ] [ Hippo ]
-late [ Vulture Fed ] [ Animal Eaten] -> [ Vulture ] [ Animal ]
+(late [ Vulture Fed ] [ Animal No Grasshopper No Vulture Eaten] -> [ Vulture ] [ Animal ])
 
 (Rollback)
 late [ Lion Fed ] -> [ HungryLion Fed ]
@@ -509,13 +526,21 @@ late [ Mouse Fed ] -> [ HungryMouse Fed ]
 late [ Grasshopper Fed ] -> [ HungryGrasshopper Fed ]
 late [ Bird Fed ] -> [ HungryBird Fed ]
 late [ Snake Fed ] -> [ HungrySnake Fed ]
-late [ Vulture Fed ] -> [ HungryVulture Fed ]
 late [ Skunk Fed ] -> [ HungrySkunk Fed ]
 late [ Monkey Fed ] -> [ HungryMonkey Fed ]
-late [ Impala Fed ] -> [ HungryImpala Fed ]
+late [ Antelope Fed ] -> [ HungryAntelope Fed ]
 late [ Leopard Fed ] -> [ HungryLeopard Fed ]
 late [ Hippo Fed ] -> [ HungryHippo Fed ]
+(late [ Vulture Fed ] -> [ HungryVulture Fed ] )
 
+(Snakes are bad)
+late [ Monkey | Snake ] -> [ HungryMonkey | Snake ]
+late [ Bird | Snake ] -> [ HungryBird | Snake ]
+
+(Monkey variety)
+late [ Monkey No MonkeyShrub No MonkeyTree ] -> [ HungryMonkey ]
+late [ Monkey No MonkeyGrasshopper No MonkeyTree ] -> [ HungryMonkey ]
+late [ Monkey No MonkeyGrasshopper No MonkeyShrub ] -> [ HungryMonkey ]
 
 ==============
 WINCONDITIONS
@@ -529,15 +554,13 @@ No Fed2
 LEVELS
 =======
 
-
-message You need to balance the ecosystem and make sure no animal starves.
-
+message You need to balance the ecosystem of this small world and make sure no animal starves.
 message You can move animals next to their food source.
 
 message Giraffes like to eat from trees.
 
 P....
-..T..
+..&..
 .....
 ..G..
 .....
@@ -545,7 +568,7 @@ P....
 message Hippos need to be next to water.
 
 P....
-..$..
+.._..
 .....
 ..C..
 .....
@@ -553,30 +576,91 @@ P....
 
 message Two animal cannot use the same food source.
 
-P...O
-.GT..
+P...%
+.G&..
 ..G..
 .....
-...T.
+...&.
 
 message Lions eat giraffes and hippos.
 message Lions are extra hungry and need two food sources.
 
-P.TOL
+P.&%L
 .....
 ....C
-G...O
-..$.O
+G...%
+.._.%
+
+message Vultures can feed off any animal and can fly.
+message Vultures eat what is left by other hunters.
+
+P.&.G
+.G...
+%..L&
+___..
+.T._.
+
+message Mice and grasshoppers need to be on lush grass lands.
+
+P....
+.##..
+..#%%
+M.%.#
+.%.H#
+
+message Monkeys like to eat from trees, shrubs or grasshoppers.
+message Monkeys want variety.
+
+P..K%
+....%
+.&...
+..$..
+.K.._
 
 
+message Snakes eat mice, but some other animals are afraid of snakes.
 
-message Vultures can feed off any animal.
+%%%%%
+_.#P%
+_.#K&
+...M%
+SH.%%
 
-P.T..
-....+
-OG..T
-.G.L.
-.OO..
+message Birds eat grasshoppers and can fly.
+
+P....
+__.B.
+M___.
+.H.__
+##.S_
+
+message Antelopes eat grass or shrubs.
+
+P.$$.
+.A.A.
+..A..
+..#.$
+.#...
+
+message Leopards like to eat antelopes or monkeys.
+message Leopards are fast, so they have a higher range.
+
+P....
+...F.
+____%
+.A#.%
+.....
+
+message Skunks eat birds and snakes.
+
+P.TB&
+%....
+_____
+H..._
+...#O
+
+message Now you know about all the animals of this small world.
+message Time to balance the ecosystem!
 
 (
 P....
@@ -586,4 +670,4 @@ P....
 .....
 )
 
-message You balanced the ecosystem! Wohoo!
+message TODO: Actual content :S
