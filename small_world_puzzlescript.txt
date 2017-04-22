@@ -2,6 +2,8 @@ title Small World
 author Wheerd
 homepage https://github.com/wheerd/ludum-dare-38
 run_rules_on_level_start
+noundo
+norestart
 
 ========
 OBJECTS
@@ -255,20 +257,26 @@ Red
 00000
 
 Eaten1
+Transparent
+(
 Red
 ....0
 .....
 .....
 .....
 .....
+)
 
 Eaten2
+Transparent
+(
 Red
 ....0
 ....0
 .....
 .....
 .....
+)
 
 Eaten3
 Red
@@ -288,20 +296,26 @@ Red
 
 
 Fed1
+Transparent
+(
 Blue
 0....
 .....
 .....
 .....
 .....
+)
 
 Fed2
+Transparent
+(
 Blue
 0....
 0....
 .....
 .....
 .....
+)
 
 Fed3
 Blue
@@ -384,8 +398,8 @@ Grass
 Animal, Blocking
 PlayerInactive, PlayerActive
 Eaten
-Fed
-FeedTemp, Eaten2, Eaten3, Eaten4, Fed2, Fed3, Fed4
+Fed, Fed2
+FeedTemp, Eaten2, Eaten3, Eaten4, Fed3, Fed4
 
 ======
 RULES
@@ -401,6 +415,7 @@ RULES
 (Reset)
 late [ Eaten ] -> [ ]
 late [ Fed ] -> [ ]
+late [ Fed2 ] -> [ ]
 late [ FedLion ] -> [ HungryLion ]
 late [ FedGiraffe ] -> [ HungryGiraffe ]
 late [ FedMouse ] -> [ HungryMouse ]
@@ -480,12 +495,15 @@ late [ Skunk Fed | Bird ] [ Bird Eaten ] -> [ Skunk | Bird ] [ Bird ]
 late [ Skunk Fed | Snake ] [ Snake Eaten ] -> [ Skunk | Snake ] [ Snake ]
 late [ Leopard Fed | Impala ] [ Impala Eaten ] -> [ Leopard | Impala ] [ Impala ]
 late [ Leopard Fed | Monkey ] [ Monkey Eaten ] -> [ Leopard | Monkey ] [ Monkey ]
-late [ Lion Fed | Giraffe ] [ Giraffe Eaten] -> [ Lion | Giraffe ] [ Giraffe ]
-late [ Lion Fed | Hippo ] [ Hippo Eaten] -> [ Lion | Hippo ] [ Hippo ]
+late [ Lion Fed | Giraffe ] [ Giraffe Eaten] -> [ Lion Fed2 | Giraffe ] [ Giraffe ]
+late [ Lion Fed | Hippo ] [ Hippo Eaten] -> [ Lion Fed2 | Hippo ] [ Hippo ]
+late [ Lion Fed2 | Giraffe ] [ Giraffe Eaten] -> [ Lion | Giraffe ] [ Giraffe ]
+late [ Lion Fed2 | Hippo ] [ Hippo Eaten] -> [ Lion | Hippo ] [ Hippo ]
 late [ Vulture Fed ] [ Animal Eaten] -> [ Vulture ] [ Animal ]
 
 (Rollback)
 late [ Lion Fed ] -> [ HungryLion Fed ]
+late [ Lion Fed2 ] -> [ HungryLion Fed2 ]
 late [ Giraffe Fed ] -> [ HungryGiraffe Fed ]
 late [ Mouse Fed ] -> [ HungryMouse Fed ]
 late [ Grasshopper Fed ] -> [ HungryGrasshopper Fed ]
@@ -504,16 +522,68 @@ WINCONDITIONS
 ==============
 
 No Hungry
-No Eaten
 No Fed
+No Fed2
 
 =======
 LEVELS
 =======
 
-TGLGT
-TLGL.
-TGL.P
+
+message You need to balance the ecosystem and make sure no animal starves.
+
+message You can move animals next to their food source.
+
+message Giraffes like to eat from trees.
+
+P....
+..T..
+.....
+..G..
+.....
+
+message Hippos need to be next to water.
+
+P....
+..$..
+.....
+..C..
+.....
 
 
-message You win!
+message Two animal cannot use the same food source.
+
+P...O
+.GT..
+..G..
+.....
+...T.
+
+message Lions eat giraffes and hippos.
+message Lions are extra hungry and need two food sources.
+
+P.TOL
+.....
+....C
+G...O
+..$.O
+
+
+
+message Vultures can feed off any animal.
+
+P.T..
+....+
+OG..T
+.G.L.
+.OO..
+
+(
+P....
+.....
+.....
+.....
+.....
+)
+
+message You balanced the ecosystem! Wohoo!
