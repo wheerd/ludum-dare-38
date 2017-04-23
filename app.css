@@ -1,6 +1,7 @@
 body {
     background: #000;
     color: #CCC;
+    font-family: Minecraft;
 }
 
 canvas {
@@ -23,4 +24,9 @@ p {
 a {
     text-decoration: none;
     color: #CFC;
+}
+
+@font-face {
+    font-family: Minecraft;
+    src: url('Minecraft.ttf');
 }

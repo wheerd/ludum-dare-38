@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.4.0</string>
         <key>fileName</key>
-        <string>C:/Users/wheerd/Documents/Coding/ludum-dare-38/images/sprites.tps</string>
+        <string>C:/Users/wheerd/Documents/Coding/ludum-dare-38/images/tiles.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -199,8 +199,11 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">tiles/antilope.png</key>
+            <key type="filename">tiles/antelope.png</key>
             <key type="filename">tiles/bird.png</key>
+            <key type="filename">tiles/button-back.png</key>
+            <key type="filename">tiles/button-hover.png</key>
+            <key type="filename">tiles/button.png</key>
             <key type="filename">tiles/desert.png</key>
             <key type="filename">tiles/giraffe.png</key>
             <key type="filename">tiles/grass-high.png</key>
