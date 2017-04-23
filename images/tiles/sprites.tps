@@ -213,11 +213,27 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">happy.png</key>
+            <key type="filename">sad.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>11,11,21,21</rect>
+                <key>scale9Paddings</key>
+                <rect>11,11,21,21</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
             <filename>giraffe.png</filename>
             <filename>lion.png</filename>
+            <filename>happy.png</filename>
+            <filename>sad.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

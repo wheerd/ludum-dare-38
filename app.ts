@@ -9,15 +9,34 @@ const PADDING = 2
 const IMAGE_FOLDER = "images/"
 const MARGIN = (PLANET_SIZE - TILES * TILE_SIZE) / 2
 
-let level = `P....
-..&..
-.D..#
-..G..
-...__`
+let LEVEL : [string, boolean] = [`PS.B_
+AC#.T
+&.#K$
+.FL.#
+_HMGC`, true]
 
 const ANIMALS = [
-    'lion', 'giraffe'
+    'lion', 'giraffe', 'mouse', 'grasshopper', 'bird', 'snake',
+    'vulture', 'monkey', 'antelope', 'leopard', 'hippo'
 ]
+
+const DIST_DIRECT = [[0, 1], [0, -1], [-1, 0], [1, 0]]
+const DIST_BELOW = [[0, 0]]
+const DIST_FAST = [[0, 2], [0, -2], [-2, 0], [2, 0]]
+
+const EATERS = {
+    'lion': [[DIST_DIRECT, ['giraffe', 'hippo']]],
+    'giraffe': [[DIST_DIRECT, ['tree']]],
+    'mouse': [[DIST_BELOW, ['grass-high']]],
+    'grasshopper': [[DIST_BELOW, ['grass-high']]],
+    'bird': [[DIST_DIRECT, ['grasshopper']]],
+    'snake': [[DIST_DIRECT, ['mouse']]],
+    'vulture': [],
+    'monkey': [[DIST_DIRECT, ['tree', 'shrub', 'grasshopper']]],
+    'antelope': [[DIST_DIRECT, ['shrub']], [DIST_BELOW, ['grass-high']]],
+    'leopard': [[DIST_DIRECT, ['antelope', 'monkey']], [DIST_FAST, ['antelope', 'monkey']]],
+    'hippo': [[DIST_DIRECT, ['water']]],
+}
 
 const TILE_MAP = {
     '.': [true, null, null],
@@ -36,46 +55,28 @@ const TILE_MAP = {
     'D': [false, null, 'lion'],
     'G': [true, null, 'giraffe'],
     'E': [false, null, 'giraffe'],
-
-    // . = Background
-    // # = Grass
-    // % = Rock
-    // : = Rock and Desert
-    // & = Tree
-    // $ = Shrub
-    // _ = Lake
-    // - = Desert
-
-    // P = PlayerInactive
-    // R = PlayerInactive and Desert
-
-    // L = HungryLion
-    // D = HungryLion and Desert
-    // G = HungryGiraffe
-    // E = HungryGiraffe and Desert
-    // M = HungryMouse
-    // W = HungryMouse and Desert
-    // H = HungryGrasshopper
-    // Q = HungryGrasshopper and Desert
-    // B = HungryBird
-    // S = HungrySnake
-    // T = HungryVulture
-    // U = HungryVulture and Desert
-    // O = HungrySkunk
-    // K = HungryMonkey
-    // N = HungryMonkey and Desert
-    // A = HungryAntelope
-    // I = HungryAntelope and Desert
-    // F = HungryLeopard
-    // J = HungryLeopard and Desert
-    // C = HungryHippo
+    'M': [true, null, 'mouse'],
+    'W': [false, null, 'mouse'],
+    'H': [true, null, 'grasshopper'],
+    'Q': [false, null, 'grasshopper'],
+    'B': [true, null, 'bird'],
+    'S': [true, null, 'snake'],
+    'T': [true, null, 'vulture'],
+    'U': [false, null, 'vulture'],
+    'K': [true, null, 'monkey'],
+    'N': [false, null, 'monkey'],
+    'A': [true, null, 'antelope'],
+    'I': [false, null, 'antelope'],
+    'F': [true, null, 'leopard'],
+    'J': [false, null, 'leopard'],
+    'C': [true, null, 'hippo'],
 }
 
 module SmallWorldGame {
 
     export class GameState extends Phaser.State {
         game: Phaser.Game
-        level: string
+        level: [string, boolean]
         map: Phaser.Tilemap
         name_to_gid: { [name: string]: number } = {}
         gid_to_name: { [gid: number]: string } = {}
@@ -84,27 +85,22 @@ module SmallWorldGame {
         active: Phaser.Tile = null
         selector: Phaser.Sprite
         happy: boolean[][]
-        eaters: number[][]
+        happyGroup: Phaser.Group
 
         constructor() {
             super()
         }
 
-        init(level: string) {
-            this.level = level
+        init(level: [string, boolean]) {
+            this.level = LEVEL
             this.happy = new Array(TILES);
             for (var i = 0; i < TILES; i++) {
                 this.happy[i] = new Array(TILES);
             }
-            this.eaters = new Array(TILES);
-            for (var i = 0; i < TILES; i++) {
-                this.eaters[i] = new Array(TILES);
-            }
         }
 
         preload() {
-            this.load.atlasJSONArray('animals', IMAGE_FOLDER + 'animals.png', IMAGE_FOLDER + 'animals.json')
-            this.load.atlasJSONArray('environment', IMAGE_FOLDER + 'environment.png', IMAGE_FOLDER + 'environment.json')
+            this.load.atlasJSONArray('tiles', IMAGE_FOLDER + 'tiles.png', IMAGE_FOLDER + 'tiles.json')
             this.load.image('planet-green', IMAGE_FOLDER + 'planet-green.png')
         }
 
@@ -135,28 +131,21 @@ module SmallWorldGame {
             group.x = group.y = MARGIN
 
             this.map = this.add.tilemap(null, TILE_SIZE, TILE_SIZE, TILES, TILES);
-            let ets = this.map.addTilesetImage('environment', 'environment')
-            let e_gid = ets.firstgid
-            let a_gid = this.map.addTilesetImage('animals', 'animals', TILE_SIZE, TILE_SIZE, 0, 0, ets.firstgid + ets.total).firstgid
-            this.cache.getFrameData('environment').getFrames().forEach((frame, i) => {
-                let name = frame.name.substr(0, frame.name.length - 4)
-                this.name_to_gid[name] = i + e_gid
-                this.gid_to_name[i + e_gid] = name
-            })
-            this.cache.getFrameData('animals').getFrames().forEach((frame, i) => {
-                let name = frame.name.substr(0, frame.name.length - 4)
-                this.name_to_gid[name] = i + a_gid
-                this.gid_to_name[i + a_gid] = name
+            this.map.addTilesetImage('tiles', 'tiles')
+            this.cache.getFrameData('tiles').getFrames().forEach((frame, i) => {
+                this.name_to_gid[frame.name] = i
+                this.gid_to_name[i] = frame.name
             })
             this.floorLayer = this.map.createBlankLayer('floor', TILES, TILES, TILE_SIZE, TILE_SIZE, group)
-            this.selector = this.add.sprite(0, 0, 'environment', 4, group)
+            this.selector = this.add.sprite(0, 0, 'tiles', 'select', group)
             this.selector.centerX = TILE_SIZE / 2
             this.selector.centerY = TILE_SIZE / 2
             this.add.tween(this.selector).to({ alpha: 0.7 }, 400, "Linear", true, 0, -1, true);
             this.selector.visible = false
             this.blockLayer = this.map.createBlankLayer('block', TILES, TILES, TILE_SIZE, TILE_SIZE, group)
+            this.happyGroup = this.add.group()
 
-            this.parseLevel(level, true)
+            this.parseLevel()
         }
 
         shutdown() {
@@ -223,23 +212,22 @@ module SmallWorldGame {
             } else {
                 this.selector.visible = false
             }
+
+            this.updateHappyness()
         }
 
-        parseLevel(level: string, grass_planet: boolean) {
-            let lines = level.split('\n')
+        parseLevel() {
+            let lines = this.level[0].split('\n')
             for (let y = 0; y < TILES; y++) {
                 for (let x = 0; x < TILES; x++) {
                     let [is_grass, floor, block] = TILE_MAP[lines[y][x]]
                     if (is_grass === null) {
-                        is_grass = grass_planet
+                        is_grass = this.level[1]
                     }
-                    if (is_grass !== grass_planet) {
-                        console.log('!', is_grass, grass_planet)
+                    if (is_grass !== this.level[1]) {
                         floor = is_grass ? 'grass-patch' : 'desert'
                     }
                     if (floor !== null) {
-                        console.log(lines[y][x], floor)
-                        console.log(this.name_to_gid[floor])
                         this.map.putTile(this.name_to_gid[floor], x, y, this.floorLayer)
                     }
                     if (block !== null) {
@@ -247,6 +235,90 @@ module SmallWorldGame {
                     }
                 }
             }
+        }
+
+        updateHappyness() {
+            let graph = {}
+            let eaters = []
+            for (let y = 0; y < TILES; y++) {
+                for (let x = 0; x < TILES; x++) {
+                    this.happy[y][x] = null
+                    let eater = this.getBlockTileNameAt(x, y)
+                    if (eater && EATERS[eater]) {
+                        this.happy[y][x] = true
+                        let id = eater + '-' + x + '-' + y
+                        let greed_id = (eater == 'lion') ? id + '-greed' : null
+                        if (!graph[id]) {
+                            eaters.push([id, x, y])
+                            graph[id] = []
+                        }
+                        if (greed_id && !graph[greed_id]) {
+                            eaters.push([greed_id, x, y])
+                            graph[greed_id] = []
+                        }
+
+                        EATERS[eater].forEach(([directions, food]) => {
+                            directions.forEach(([dx, dy]) => {
+                                let what = this.getBlockTileNameAt(x + dx, y + dy)
+                                if (food.indexOf(what) !== -1) {
+                                    let other_id = what + '-' + (x + dx) + '-' + (y + dy)
+                                    graph[id].push(other_id)
+                                    if (greed_id) graph[greed_id].push(other_id)
+                                }
+                                what = this.getFloorTileNameAt(x + dx, y + dy)
+                                if (food.indexOf(what) !== -1) {
+                                    let other_id = what + '-' + (x + dx) + '-' + (y + dy)
+                                    graph[id].push(other_id)
+                                    if (greed_id) graph[greed_id].push(other_id)
+                                }
+                            })
+                        })
+                    }
+                }
+            }
+
+            let matching = window.hopcroftCarp.hopcroftKarp(graph)
+            let happy = true
+            let eaten = []
+
+            for (let i = 0; i < eaters.length; i++) {
+                let [id, x, y] = eaters[i]
+                if (matching[id] === null) {
+                    this.happy[y][x] = false
+                    happy = false
+                } else {
+                    eaten.push([x, y])
+                }
+                let floor = this.getFloorTileNameAt(x, y)
+                if (floor === 'desert' || (floor === null && !this.level[1])) {
+                    this.happy[y][x] = false
+                    happy = false
+                }
+            }
+
+            this.renderHappyness()
+        }
+
+        renderHappyness() {
+            this.happyGroup.removeAll()
+
+             for (let y = 0; y < TILES; y++) {
+                for (let x = 0; x < TILES; x++) {
+                    if (this.happy[y][x] !== null) {
+                        this.add.sprite(MARGIN + x * TILE_SIZE, MARGIN + y * TILE_SIZE, 'tiles', this.happy[y][x]? 'happy' : 'sad', this.happyGroup)
+                    }
+                }
+            }
+        }
+
+        getFloorTileNameAt(x: number, y: number) {
+            let tile = this.map.getTile(x, y, this.floorLayer)
+            return tile === null? null : this.gid_to_name[tile.index]
+        }
+
+        getBlockTileNameAt(x: number, y: number) {
+            let tile = this.map.getTile(x, y, this.blockLayer)
+            return tile === null? null : this.gid_to_name[tile.index]
         }
     }
 

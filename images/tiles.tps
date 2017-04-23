@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.4.0</string>
         <key>fileName</key>
-        <string>C:/Users/wheerd/Documents/Coding/ludum-dare-38/images/environment.tps</string>
+        <string>C:/Users/wheerd/Documents/Coding/ludum-dare-38/images/sprites.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -119,7 +119,7 @@
             <key>basic</key>
             <struct type="AlgorithmBasicSettings">
                 <key>sortBy</key>
-                <enum type="AlgorithmBasicSettings::SortBy">Name</enum>
+                <enum type="AlgorithmBasicSettings::SortBy">Best</enum>
                 <key>order</key>
                 <enum type="AlgorithmBasicSettings::Order">Ascending</enum>
             </struct>
@@ -150,7 +150,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>environment.json</filename>
+                <filename>tiles.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -199,14 +199,27 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">desert.png</key>
-            <key type="filename">grass-high.png</key>
-            <key type="filename">grass-patch.png</key>
-            <key type="filename">rock.png</key>
-            <key type="filename">select.png</key>
-            <key type="filename">shrub.png</key>
-            <key type="filename">tree.png</key>
-            <key type="filename">water.png</key>
+            <key type="filename">tiles/antilope.png</key>
+            <key type="filename">tiles/bird.png</key>
+            <key type="filename">tiles/desert.png</key>
+            <key type="filename">tiles/giraffe.png</key>
+            <key type="filename">tiles/grass-high.png</key>
+            <key type="filename">tiles/grass-patch.png</key>
+            <key type="filename">tiles/grasshopper.png</key>
+            <key type="filename">tiles/happy.png</key>
+            <key type="filename">tiles/hippo.png</key>
+            <key type="filename">tiles/leopard.png</key>
+            <key type="filename">tiles/lion.png</key>
+            <key type="filename">tiles/monkey.png</key>
+            <key type="filename">tiles/mouse.png</key>
+            <key type="filename">tiles/rock.png</key>
+            <key type="filename">tiles/sad.png</key>
+            <key type="filename">tiles/select.png</key>
+            <key type="filename">tiles/shrub.png</key>
+            <key type="filename">tiles/snake.png</key>
+            <key type="filename">tiles/tree.png</key>
+            <key type="filename">tiles/vulture.png</key>
+            <key type="filename">tiles/water.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -222,14 +235,7 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>desert.png</filename>
-            <filename>grass-high.png</filename>
-            <filename>grass-patch.png</filename>
-            <filename>rock.png</filename>
-            <filename>shrub.png</filename>
-            <filename>tree.png</filename>
-            <filename>water.png</filename>
-            <filename>select.png</filename>
+            <filename>tiles</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
