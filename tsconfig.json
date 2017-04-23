@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "watch": true
+    },
+    "exclude": [
+        "maps",
+        "bower_components"
+    ],
+    "compileOnSave": true
+}

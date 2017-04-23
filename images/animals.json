@@ -1,0 +1,28 @@
+{"frames": {
+
+"giraffe.png":
+{
+	"frame": {"x":0,"y":0,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+"lion.png":
+{
+	"frame": {"x":32,"y":0,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "animals.png",
+	"format": "RGBA8888",
+	"size": {"w":64,"h":32},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:8e6c5c578f1acc9375aad978e7c59287:5cc035829fc1c76f719210c52421d35f:b00d48b51f56eb7c81e25100fcce2828$"
+}
+}

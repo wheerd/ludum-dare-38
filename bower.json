@@ -1,0 +1,22 @@
+{
+  "name": "Ludum Dare 38",
+  "homepage": "https://github.com/wheerd/ludum-dare-38",
+  "authors": [
+    "Wheerd <admin@wheerd.de>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "phaser": "^2.6.2"
+  }
+}
