@@ -208,6 +208,9 @@ DarkGrey Black
 Background
 LightGreen
 
+Desert
+#EDC9AF
+
 Grass
 #86AA1E
 
@@ -353,23 +356,34 @@ LEGEND
 . = Background
 # = Grass
 % = Rock
+: = Rock and Desert
 & = Tree
 $ = Shrub
 _ = Lake
+- = Desert
 
 P = PlayerInactive
+R = PlayerInactive and Desert
 
 L = HungryLion
+D = HungryLion and Desert
 G = HungryGiraffe
+E = HungryGiraffe and Desert
 M = HungryMouse
+W = HungryMouse and Desert
 H = HungryGrasshopper
+Q = HungryGrasshopper and Desert
 B = HungryBird
 S = HungrySnake
 T = HungryVulture
+U = HungryVulture and Desert
 O = HungrySkunk
 K = HungryMonkey
+N = HungryMonkey and Desert
 A = HungryAntelope
+I = HungryAntelope and Desert
 F = HungryLeopard
+J = HungryLeopard and Desert
 C = HungryHippo
 
 Player = PlayerActive or PlayerInactive
@@ -403,7 +417,7 @@ COLLISIONLAYERS
 ================
 
 Background
-Grass
+Grass, Desert
 Blocking
 Animal
 PlayerInactive, PlayerActive
@@ -519,6 +533,8 @@ late [ Lion Fed2 | Hippo ] [ Hippo Eaten] -> [ Lion | Hippo ] [ Hippo ]
 (late [ Vulture Fed ] [ Animal No Grasshopper No Vulture Eaten] -> [ Vulture ] [ Animal ])
 
 (Rollback)
+late [ Animal Desert ] -> [ Animal Desert Fed ]
+
 late [ Lion Fed ] -> [ HungryLion Fed ]
 late [ Lion Fed2 ] -> [ HungryLion Fed2 ]
 late [ Giraffe Fed ] -> [ HungryGiraffe Fed ]
@@ -531,7 +547,7 @@ late [ Monkey Fed ] -> [ HungryMonkey Fed ]
 late [ Antelope Fed ] -> [ HungryAntelope Fed ]
 late [ Leopard Fed ] -> [ HungryLeopard Fed ]
 late [ Hippo Fed ] -> [ HungryHippo Fed ]
-(late [ Vulture Fed ] -> [ HungryVulture Fed ] )
+late [ Vulture Fed ] -> [ HungryVulture Fed ]
 
 (Snakes are bad)
 late [ Monkey | Snake ] -> [ HungryMonkey | Snake ]
@@ -554,6 +570,7 @@ No Fed2
 LEVELS
 =======
 
+(Tutorial)
 message You need to balance the ecosystem of this small world and make sure no animal starves.
 message You can move animals next to their food source.
 
@@ -567,10 +584,10 @@ P....
 
 message Hippos need to be next to water.
 
-P....
-.._..
-.....
-..C..
+P..__
+...__
+...._
+.C...
 .....
 
 
@@ -651,6 +668,7 @@ ____%
 .A#.%
 .....
 
+(
 message Skunks eat birds and snakes.
 
 P.TB&
@@ -658,16 +676,122 @@ P.TB&
 _____
 H..._
 ...#O
+)
 
+(Actual levels)
 message Now you know about all the animals of this small world.
 message Time to balance the ecosystem!
 
+message The desert has spread.
+
+R-J#J
+-#---
+---.-
+--.#-
+:II-:
+
+R--Q-
+-&..-
+--$.E
+--.#-
+-N---
+
+
+R--U:
+&K$.&
+--..-
+-F-.-
+----:
+
+R----
+-B.S-
+-..%-
+-###-
+-QW--
+
+R-D--
+---&-
+&G&C.
+-..LG
+-&G._
+
+R---:
+--:.%
+&L&C_
+--.-.
+--&GG
+
+message The rain has made the desert green again.
+
+$-.H-
+.#.KK
+$P.._
+..__.
+&_B#.
+
+P%%G&
+..%.&
+%.L..
+%.&&%
+TT.G%
+
+P&%G&
+..&.%
+%.L..
+&.%&%
+TT.G&
+
+PS.B_
+AC#.T
+&.#K$
+.FL.#
+_HMGC
+
+message You have balanced the ecosystem of this small world!
+message All the animals are happy and thrive. Yay!
+
 (
+. = Background
+# = Grass
+% = Rock
+: = Rock and Desert
+& = Tree
+$ = Shrub
+_ = Lake
+- = Desert
+
+P = PlayerInactive
+R = PlayerInactive and Desert
+
+L = HungryLion
+D = HungryLion and Desert
+G = HungryGiraffe
+E = HungryGiraffe and Desert
+M = HungryMouse
+H = HungryGrasshopper
+Q = HungryGrasshopper and Desert
+B = HungryBird
+S = HungrySnake
+T = HungryVulture
+U = HungryVulture and Desert
+O = HungrySkunk
+K = HungryMonkey
+N = HungryMonkey and Desert
+A = HungryAntelope
+I = HungryAntelope and Desert
+F = HungryLeopard
+J = HungryLeopard and Desert
+C = HungryHippo
+
 P....
 .....
 .....
 .....
 .....
-)
 
-message TODO: Actual content :S
+R----
+-----
+-----
+-----
+-----
+)
