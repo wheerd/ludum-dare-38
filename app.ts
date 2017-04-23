@@ -31,7 +31,7 @@ const EATERS = {
     'grasshopper': [[DIST_BELOW, ['grass-high']]],
     'bird': [[DIST_DIRECT, ['grasshopper']]],
     'snake': [[DIST_DIRECT, ['mouse']]],
-    'vulture': [],
+    'vulture': [[DIST_DIRECT, []]],
     'monkey': [[DIST_DIRECT, ['tree', 'shrub', 'grasshopper']]],
     'antelope': [[DIST_DIRECT, ['shrub']], [DIST_BELOW, ['grass-high']]],
     'leopard': [[DIST_DIRECT, ['antelope', 'monkey']], [DIST_FAST, ['antelope', 'monkey']]],
@@ -146,6 +146,7 @@ module SmallWorldGame {
             this.happyGroup = this.add.group()
 
             this.parseLevel()
+            this.updateHappyness()
         }
 
         shutdown() {
@@ -153,9 +154,6 @@ module SmallWorldGame {
 
         update() {
             this.game.input.update()
-
-            if (this.active !== null) {
-            }
         }
 
         onTap(position: Phaser.Pointer) {
@@ -185,9 +183,10 @@ module SmallWorldGame {
                     let tx = sx + dx
                     let ty = sy + dy
                     if (tx >= 0 && tx < TILES && ty >= 0 && ty < TILES) {
-                        let floorTile = this.map.getTile(tx, ty, this.floorLayer)
                         let blockTile = this.map.getTile(tx, ty, this.blockLayer)
-                        if (floorTile === null || this.gid_to_name[floorTile.index] != 'water') {
+                        let floorName = this.getFloorTileNameAt(tx, ty)
+                        let activeName = this.gid_to_name[this.active.index]
+                        if (floorName !== 'water') {
                             if (blockTile === null) {
                                 this.active = this.map.putTile(this.active, tx, ty, this.blockLayer)
                                 this.map.removeTile(sx, sy, this.blockLayer)
@@ -197,6 +196,9 @@ module SmallWorldGame {
                                 this.active = this.map.putTile(this.active, tx, ty, this.blockLayer)
                                 this.map.putTile(old, sx, sy, this.blockLayer)
                             }
+                        } else if (activeName == 'bird' || activeName == 'vulture') {
+                            this.active = this.map.putTile(this.active, tx, ty, this.blockLayer)
+                            this.map.removeTile(sx, sy, this.blockLayer)
                         }
 
                         this.updateSelector()
@@ -240,6 +242,9 @@ module SmallWorldGame {
         updateHappyness() {
             let graph = {}
             let eaters = []
+            let variety = {}
+            let snake = {}
+            let vultures = []
             for (let y = 0; y < TILES; y++) {
                 for (let x = 0; x < TILES; x++) {
                     this.happy[y][x] = null
@@ -256,46 +261,77 @@ module SmallWorldGame {
                             eaters.push([greed_id, x, y])
                             graph[greed_id] = []
                         }
-
+                        if (eater == 'vulture') {
+                            vultures.push([[x, y], []])
+                        }
                         EATERS[eater].forEach(([directions, food]) => {
                             directions.forEach(([dx, dy]) => {
                                 let what = this.getBlockTileNameAt(x + dx, y + dy)
+                                let other_id = what + '-' + (x + dx) + '-' + (y + dy)
                                 if (food.indexOf(what) !== -1) {
-                                    let other_id = what + '-' + (x + dx) + '-' + (y + dy)
                                     graph[id].push(other_id)
                                     if (greed_id) graph[greed_id].push(other_id)
+                                    if (eater == 'monkey') (variety[id] || (variety[id] = new Set())).add(what)
+                                }
+                                if (eater == 'snake' && (what == 'monkey' || what == 'bird')) {
+                                    snake[other_id] = true
+                                }
+                                if (eater == 'vulture' && what != 'grasshopper' && ANIMALS.indexOf(what) !== -1) {
+                                    vultures[vultures.length-1][1].push(other_id)
                                 }
                                 what = this.getFloorTileNameAt(x + dx, y + dy)
+                                other_id = what + '-' + (x + dx) + '-' + (y + dy)
                                 if (food.indexOf(what) !== -1) {
-                                    let other_id = what + '-' + (x + dx) + '-' + (y + dy)
                                     graph[id].push(other_id)
                                     if (greed_id) graph[greed_id].push(other_id)
+                                    if (eater == 'monkey') (variety[id] || (variety[id] = new Set())).add(what)
                                 }
                             })
                         })
                     }
                 }
             }
-
             let matching = window.hopcroftCarp.hopcroftKarp(graph)
             let happy = true
             let eaten = []
-
             for (let i = 0; i < eaters.length; i++) {
                 let [id, x, y] = eaters[i]
+                // Hungry
                 if (matching[id] === null) {
                     this.happy[y][x] = false
                     happy = false
                 } else {
-                    eaten.push([x, y])
+                    eaten.push(matching[id])
                 }
+                // Desert
                 let floor = this.getFloorTileNameAt(x, y)
-                if (floor === 'desert' || (floor === null && !this.level[1])) {
+                if (floor === 'desert' || (floor === null && !this.level[1]) || floor == 'water') {
+                    this.happy[y][x] = false
+                    happy = false
+                }
+                // Monkey variety
+                if ((id in variety) && (variety[id].size < 2)) {
+                    this.happy[y][x] = false
+                    happy = false
+                }
+                // Snake
+                if (snake[id]) {
                     this.happy[y][x] = false
                     happy = false
                 }
             }
-
+            // Vultures
+            for (var i = 0; i < vultures.length; i++) {
+                let [[x, y], foods] = vultures[i]
+                let hungry = true
+                for (var j = 0; j < foods.length; j++) {
+                    if (eaten.indexOf(foods[j]) !== -1) {
+                        hungry = false
+                        break
+                    }
+                }
+                this.happy[y][x] = !hungry
+            }
             this.renderHappyness()
         }
 
