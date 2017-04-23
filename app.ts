@@ -249,6 +249,20 @@ message All the animals are happy and thrive. Yay!
         'vulture', 'monkey', 'antelope', 'leopard', 'hippo'
     ]
 
+    const ANIMAL_META = {
+        'lion': ["Lion", "Lions eat hippos and giraffes.\nLions are extra hungry."],
+        'giraffe': ["Giraffe", "Giraffes eat leafs from trees."],
+        'mouse': ["Mouse", "Mice like to hide in high grass."],
+        'grasshopper': ["Grasshopper", "Grasshoppers like to hide in high grass"],
+        'bird': ["Bird", "Birds eat grasshoppers.\nBirds can fly."],
+        'snake': ["Snake", "Snakes eat mice.\nSome animals are afraid of snakes."],
+        'vulture': ["Vulture", "Vultures can feed off any animal and can fly. They eat carrion."],
+        'monkey': ["Monkey", "Monkeys eat from trees and shrubs and grasshoppers. They like food variety."],
+        'antelope': ["Antelope", "Antelopes eat grass or shrubs."],
+        'leopard': ["Leopard", "Leopards eat monkeys or antelopes. Leopards are fast."],
+        'hippo': ["Hippo", "Hippos like to be next to water."],
+    }
+
     const DIST_DIRECT = [[0, 1], [0, -1], [-1, 0], [1, 0]]
     const DIST_BELOW = [[0, 0]]
     const DIST_FAST = [[0, 2], [0, -2], [-2, 0], [2, 0]]
@@ -302,6 +316,9 @@ message All the animals are happy and thrive. Yay!
     }
 
     export class GameState extends Phaser.State {
+        message_box_title: Phaser.Text;
+        message_box_text: Phaser.Text;
+        message_box: Phaser.Group;
         blinds: Phaser.Graphics;
         back_button: Phaser.Button;
         text_message: Phaser.Text;
@@ -340,6 +357,7 @@ message All the animals are happy and thrive. Yay!
             this.load.image('planet-green', IMAGE_FOLDER + 'planet-green.png')
             this.load.image('planet-yellow', IMAGE_FOLDER + 'planet-yellow.png')
             this.load.image('planet-border', IMAGE_FOLDER + 'planet-border.png')
+            this.load.image('message-box', IMAGE_FOLDER + 'message-box.png')
         }
 
         create() {
@@ -390,6 +408,24 @@ message All the animals are happy and thrive. Yay!
             this.blockLayer = this.map.createBlankLayer('block', TILES, TILES, TILE_SIZE, TILE_SIZE, group)
             this.happyGroup = this.add.group()
 
+            this.message_box = this.add.group()
+            this.add.sprite(0, 0, 'message-box', null, this.message_box)
+            this.message_box_title = this.add.text(0, 0, '', {
+                font: '16px Minecraft',
+                fill: '#FFFFFF',
+                align: 'left'
+            }, this.message_box)
+            this.message_box_title.setTextBounds(5, PLANET_SIZE - 65, PLANET_SIZE - 10, 20)
+            this.message_box_text = this.add.text(0, 0, '', {
+                font: '14px Minecraft',
+                fill: '#000000',
+                wordWrap: true,
+                wordWrapWidth: PLANET_SIZE - 10,
+                align: 'left'
+            }, this.message_box)
+            this.message_box_text.setTextBounds(5, PLANET_SIZE - 45, PLANET_SIZE - 10, 40)
+            this.message_box.visible = false
+
             this.blinds = this.add.graphics(0, 0);
             this.blinds.beginFill(0x000, 0.9);
             this.blinds.drawRect(0, 0, PLANET_SIZE, PLANET_SIZE)
@@ -397,7 +433,7 @@ message All the animals are happy and thrive. Yay!
 
             this.text_group = this.add.group()
 
-            this.text_message = this.add.text(0, 0, 'This is some text that is longer i hope there are automatic breaks?', {
+            this.text_message = this.add.text(0, 0, '', {
                 font: '20px Minecraft',
                 fill: '#FFFFFF',
                 boundsAlignH: 'center',
@@ -518,10 +554,14 @@ message All the animals are happy and thrive. Yay!
             if (this.active !== null) {
                 this.selector.position.set(this.active.worldX, this.active.worldY)
                 this.selector.visible = true
+                this.message_box.visible = true
+                let [title, message] = ANIMAL_META[this.gid_to_name[this.active.index]]
+                this.message_box_title.text = title
+                this.message_box_text.text = message
             } else {
                 this.selector.visible = false
+                this.message_box.visible = false
             }
-
 
             this.updateHappyness()
             if (this.all_happy) {
