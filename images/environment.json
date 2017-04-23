@@ -1,0 +1,76 @@
+{"frames": [
+
+{
+	"filename": "desert",
+	"frame": {"x":0,"y":0,"w":42,"h":42},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":42},
+	"sourceSize": {"w":42,"h":42}
+},
+{
+	"filename": "grass-high",
+	"frame": {"x":42,"y":0,"w":42,"h":42},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":42},
+	"sourceSize": {"w":42,"h":42}
+},
+{
+	"filename": "grass-patch",
+	"frame": {"x":84,"y":0,"w":42,"h":42},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":42},
+	"sourceSize": {"w":42,"h":42}
+},
+{
+	"filename": "rock",
+	"frame": {"x":0,"y":42,"w":42,"h":42},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":42},
+	"sourceSize": {"w":42,"h":42}
+},
+{
+	"filename": "select",
+	"frame": {"x":42,"y":42,"w":42,"h":42},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":42},
+	"sourceSize": {"w":42,"h":42}
+},
+{
+	"filename": "shrub",
+	"frame": {"x":84,"y":42,"w":42,"h":42},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":42},
+	"sourceSize": {"w":42,"h":42}
+},
+{
+	"filename": "tree",
+	"frame": {"x":0,"y":84,"w":42,"h":42},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":42},
+	"sourceSize": {"w":42,"h":42}
+},
+{
+	"filename": "water",
+	"frame": {"x":42,"y":84,"w":42,"h":42},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":42},
+	"sourceSize": {"w":42,"h":42}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "environment.png",
+	"format": "RGBA8888",
+	"size": {"w":126,"h":126},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:9cffbb0088209a656fc330d171754e76:bf83ab1bd5734ea5b5ece2f705d40671:7abea815e3107eecbafa95ee71efdc50$"
+}
+}

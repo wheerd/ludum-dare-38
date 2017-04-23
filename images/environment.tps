@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.4.0</string>
         <key>fileName</key>
-        <string>C:/Users/wheerd/Documents/Coding/ludum-dare-38/images/animals.tps</string>
+        <string>C:/Users/wheerd/Documents/Coding/ludum-dare-38/images/environment.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -119,7 +119,7 @@
             <key>basic</key>
             <struct type="AlgorithmBasicSettings">
                 <key>sortBy</key>
-                <enum type="AlgorithmBasicSettings::SortBy">Best</enum>
+                <enum type="AlgorithmBasicSettings::SortBy">Name</enum>
                 <key>order</key>
                 <enum type="AlgorithmBasicSettings::Order">Ascending</enum>
             </struct>
@@ -150,7 +150,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>animals.json</filename>
+                <filename>environment.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -199,25 +199,37 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">giraffe.png</key>
-            <key type="filename">lion.png</key>
+            <key type="filename">desert.png</key>
+            <key type="filename">grass-high.png</key>
+            <key type="filename">grass-patch.png</key>
+            <key type="filename">rock.png</key>
+            <key type="filename">select.png</key>
+            <key type="filename">shrub.png</key>
+            <key type="filename">tree.png</key>
+            <key type="filename">water.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>8,8,16,16</rect>
+                <rect>11,11,21,21</rect>
                 <key>scale9Paddings</key>
-                <rect>8,8,16,16</rect>
+                <rect>11,11,21,21</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>giraffe.png</filename>
-            <filename>lion.png</filename>
+            <filename>desert.png</filename>
+            <filename>grass-high.png</filename>
+            <filename>grass-patch.png</filename>
+            <filename>rock.png</filename>
+            <filename>shrub.png</filename>
+            <filename>tree.png</filename>
+            <filename>water.png</filename>
+            <filename>select.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

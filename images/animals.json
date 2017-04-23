@@ -1,28 +1,28 @@
-{"frames": {
+{"frames": [
 
-"giraffe.png":
 {
-	"frame": {"x":0,"y":0,"w":32,"h":32},
+	"filename": "giraffe",
+	"frame": {"x":0,"y":0,"w":42,"h":42},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
+	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":42},
+	"sourceSize": {"w":42,"h":42}
 },
-"lion.png":
 {
-	"frame": {"x":32,"y":0,"w":32,"h":32},
+	"filename": "lion",
+	"frame": {"x":42,"y":0,"w":42,"h":42},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-}},
+	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":42},
+	"sourceSize": {"w":42,"h":42}
+}],
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "animals.png",
 	"format": "RGBA8888",
-	"size": {"w":64,"h":32},
+	"size": {"w":84,"h":42},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:8e6c5c578f1acc9375aad978e7c59287:5cc035829fc1c76f719210c52421d35f:b00d48b51f56eb7c81e25100fcce2828$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c94e688f36b7f6bc3b0b5b39c355b193:26fbe0c15ecb8272f45a8de2b395681b:b00d48b51f56eb7c81e25100fcce2828$"
 }
 }
