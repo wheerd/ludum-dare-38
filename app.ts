@@ -235,6 +235,7 @@ _HMGC
 
 message You have balanced the ecosystem of this small world!
 message All the animals are happy and thrive. Yay!
+message THE END
 `
 
     export const ACTUAL_LEVELS = parseLevels(ACTUAL_LEVELS_RAW)
