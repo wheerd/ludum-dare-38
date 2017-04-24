@@ -44,7 +44,7 @@ module SmallWorldGame {
                         level.is_grass = is_grass
                         lineCount = 0
                     }
-                } else if(line[1] === '>') {
+                } else if (line[1] === '>') {
                     if (line[2] === 'G') {
                         level.is_grass = is_grass = true
                     }
@@ -381,7 +381,7 @@ message THE END
             cursors.right.onUp.add(this.onKey(1, 0), this)
 
             if (this.level.data) {
-                let sprite = this.add.sprite(0, 0, this.level.is_grass? 'planet-green' : 'planet-yellow');
+                let sprite = this.add.sprite(0, 0, this.level.is_grass ? 'planet-green' : 'planet-yellow');
                 let border = this.add.sprite(0, 0, 'planet-border');
             }
 
@@ -481,9 +481,9 @@ message THE END
         updateMessage() {
             if (this.message_index >= this.level.messages.length) {
                 if (this.level.data) {
-                this.text_group.visible = false
-                this.back_button.inputEnabled = true
-                this.add.tween(this.blinds).to({ alpha: 0 }, 300, 'Linear', true)
+                    this.text_group.visible = false
+                    this.back_button.inputEnabled = true
+                    this.add.tween(this.blinds).to({ alpha: 0 }, 300, 'Linear', true)
                 } else {
                     this.completeLevel()
                 }
@@ -527,24 +527,25 @@ message THE END
                     let tx = sx + dx
                     let ty = sy + dy
                     if (tx >= 0 && tx < TILES && ty >= 0 && ty < TILES) {
-                        let blockTile = this.map.getTile(tx, ty, this.blockLayer)
-                        let floorName = this.getFloorTileNameAt(tx, ty)
-                        let activeName = this.gid_to_name[this.active.index]
-                        if (floorName !== 'water') {
-                            if (blockTile === null) {
-                                this.active = this.map.putTile(this.active, tx, ty, this.blockLayer)
+                        let sourceBlock = this.getBlockTileNameAt(sx, sy)
+                        let sourceFloor = this.getFloorTileNameAt(sx, sy)
+                        let targetBlock = this.getBlockTileNameAt(tx, ty)
+                        let targetFloor = this.getFloorTileNameAt(tx, ty)
+                        let any_water = sourceFloor === 'water' || targetFloor === 'water'
+                        let need_swap = ANIMALS.indexOf(sourceBlock) !== -1 && ANIMALS.indexOf(targetBlock) !== -1
+                        let blocked = targetBlock !== null && ANIMALS.indexOf(targetBlock) === -1
+                        let flying = (sourceBlock === 'bird' || sourceBlock === 'vulture') &&
+                                    (targetBlock === 'bird' || targetBlock === 'vulture' || targetBlock === null)
+
+                        if (!any_water || flying) {
+                            if (need_swap) {
+                                this.active = this.map.putTile(this.name_to_gid[sourceBlock], tx, ty, this.blockLayer)
+                                this.map.putTile(this.name_to_gid[targetBlock], sx, sy, this.blockLayer)
+                            } else if (!blocked) {
+                                this.active = this.map.putTile(this.name_to_gid[sourceBlock], tx, ty, this.blockLayer)
                                 this.map.removeTile(sx, sy, this.blockLayer)
                             }
-                            else if (ANIMALS.indexOf(this.gid_to_name[blockTile.index]) !== -1) {
-                                let old = blockTile.index
-                                this.active = this.map.putTile(this.active, tx, ty, this.blockLayer)
-                                this.map.putTile(old, sx, sy, this.blockLayer)
-                            }
-                        } else if (activeName == 'bird' || activeName == 'vulture') {
-                            this.active = this.map.putTile(this.active, tx, ty, this.blockLayer)
-                            this.map.removeTile(sx, sy, this.blockLayer)
                         }
-
                         this.updateSelector()
                     }
                 }
@@ -706,12 +707,19 @@ message THE END
 
         getFloorTileNameAt(x: number, y: number) {
             let tile = this.map.getTile(x, y, this.floorLayer)
-            return tile === null ? null : this.gid_to_name[tile.index]
+            let result = null
+            if (tile !== null) {
+                result = this.gid_to_name[tile.index]
+                if (result === undefined) {
+                    result = null
+                }
+            }
+            return result
         }
 
         getBlockTileNameAt(x: number, y: number) {
             let tile = this.map.getTile(x, y, this.blockLayer)
-            return tile === null ? null : this.gid_to_name[tile.index]
+            return tile === null ? null : (this.gid_to_name[tile.index] || null)
         }
     }
 
@@ -743,7 +751,7 @@ message THE END
             }
 
             let [name, is_grass, levels] = ALL_LEVELS[this.planet]
-            let sprite = this.add.sprite(0, 0, is_grass? 'planet-green' : 'planet-yellow');
+            let sprite = this.add.sprite(0, 0, is_grass ? 'planet-green' : 'planet-yellow');
 
             if (this.planet > 0) {
                 this.add.button(0, (PLANET_SIZE - TILE_SIZE) / 2, 'tiles', () => {
