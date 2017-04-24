@@ -333,7 +333,7 @@ message THE END
         gid_to_name: { [gid: number]: string } = {}
         floorLayer: Phaser.TilemapLayer
         blockLayer: Phaser.TilemapLayer
-        active: Phaser.Tile = null
+        active: Phaser.Tile
         selector: Phaser.Sprite
         happy: boolean[][]
         happyGroup: Phaser.Group
@@ -351,6 +351,7 @@ message THE END
                 this.happy[i] = new Array(TILES);
             }
             this.message_index = 0
+            this.active = null
         }
 
         preload() {
@@ -653,8 +654,8 @@ message THE END
                 let [id, x, y] = eaters[i]
                 // Hungry
                 if (matching[id] === null) {
-                    this.happy[y][x] = false
                     if (id.indexOf('vulture') !== 0) {
+                        this.happy[y][x] = false
                         this.all_happy = false
                     }
                 } else {
@@ -687,8 +688,10 @@ message THE END
                         break
                     }
                 }
-                this.happy[y][x] = !hungry
-                this.all_happy = this.all_happy && !hungry
+                if (hungry) {
+                    this.happy[y][x] = false
+                    this.all_happy = false
+                }
             }
             this.renderHappyness()
         }
